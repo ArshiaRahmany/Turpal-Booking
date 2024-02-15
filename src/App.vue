@@ -3,32 +3,39 @@
     <header>
       <header-app/>
     </header>
-    <div class="home">
-      <home/>
-      <services/>
-      <about/>
-    </div>
-    <footer>
-      <footer-app/>
-    </footer>
+    <body>
+      <div class="title">
+        <title-app/>
+      </div>
+      <div class="saerch">
+        <search-app/>
+        <search-Background/>
+      </div>
+      <div class="tours">
+        <tour-Title/>
+        <top-Tours/>
+      </div>
+    </body>
   </div>
 </template>
 
 <script>
-import header from "./components/header.vue";
-import home from "./components/home.vue";
-import services from "./components/services.vue";
-import about from "./components/about.vue";
-import footer from "./components/footer.vue";
+import header from "./components/headerApp.vue";
+import title from "./components/titleApp.vue";
+import search from "./components/searchApp.vue";
+import searchBackground from "./components/searchBackground.vue";
+import tourTitle from "./components/tourTitle.vue";
+import topTours from "./components/topTours.vue";
 
 export default {
   name: 'App',
   components: {
      'header-app': header,  
-     'home' : home,
-     'services' : services,
-     'about' : about,
-     'footer-app' : footer,
+     'title-app': title,  
+     'search-app': search,  
+     'search-Background': searchBackground,  
+     'tour-Title': tourTitle,  
+     'top-Tours': topTours,  
   }
 }
 </script>
