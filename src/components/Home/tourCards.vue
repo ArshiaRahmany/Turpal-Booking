@@ -1,33 +1,43 @@
 <template>
     <div class="container">
-        <div class="theCard">
-            <div class="cover">
-                <img src="" alt="">
-            </div>
-            <div class="txtHolder">
-                <div class="aboutTour">
-                    <p id="destination"> Dubai </p>
-                    <p id="description"> Dubai Miracle Garden Skip-the-Line Entry Tickets</p>
+        <div class="theCard" v-for="(card, index) in cards" :key="index" :index="index">
+            <router-link :to="'/TourPage/' + card.id">
+                <div class="cover">
+                    <img :src="`${card.image}`" alt="">
                 </div>
-                <div id="inception">
-                    from
-                    <span>
-                        895.00 AED
-                    </span>
+                <div class="txtHolder">
+                    <div class="aboutTour">
+                        <p id="destination"> {{card.name}} </p>
+                        <p id="description"> {{ card.description }}</p>
+                    </div>
+                    <div id="amount">
+                        from
+                        <span>
+                            {{ card.amount }} {{ card.currency }}
+                        </span>
+                    </div>
                 </div>
-            </div>
+            </router-link>
         </div>
     </div>
 </template>
 
 <script>
+import { useTourStore } from '../../store/citiesStore'
+
 export default {
     name: 'TurpalTourCards',
 
     data() {
         return {
-
+            cards: [],
         };
+    },
+    async created() {
+        const store = useTourStore()
+        const allCards = await store.fetchCities();
+        this.cards = allCards.slice(0, 3);
+        console.log(this.cards);
     },
 
     mounted() {
@@ -41,20 +51,27 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+a {
+    text-decoration: none;
+}
+
 .container {
     margin-bottom: 40px;
+    margin-inline: 15%;
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
     justify-content: space-around;
 }
 
 .theCard {
-    height: 448px;
-    width: 262px;
+    height: 458px;
+    width: 30%;
     padding: 0px, 0px, 10px, 0px;
     border-radius: 10px;
     gap: 12px;
     border: 1px solid #ADB3CC;
+    margin-bottom: 20px;
 }
 
 .cover img {
@@ -71,7 +88,7 @@ export default {
 }
 
 #destination,
-#inception {
+#amount {
     font-family: Inter;
     font-size: 12px;
     font-weight: 400;
@@ -95,4 +112,5 @@ span {
 #inception {
     position: relative;
     top: 40px;
-}</style>
+}
+</style>

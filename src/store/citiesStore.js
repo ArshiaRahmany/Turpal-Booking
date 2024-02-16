@@ -20,6 +20,7 @@ export const useTourStore = defineStore('cities', {
             price_range : element.price.price_range,
             highlights : element.highlights,
         }));
+        console.log(this.cities);
         return this.cities;
       } catch (error) {
         console.error('Error fetching cities:', error);

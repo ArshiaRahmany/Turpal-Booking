@@ -1,15 +1,16 @@
-import {createRouter , createWebHistory} from 'vue-router'
+import { createRouter, createWebHashHistory } from "vue-router";
+import TourPage from "../views/TourPage.vue";
 
-const homePage = () => import('../views/homePage.vue')
-const tours = () => import('../views/services/tours.vue');
+const homePage = () => import("../views/homePage.vue");
 
 const routes = [
-    {path: "/" ,  component : homePage},
-    {path: "/services" ,  component : tours},
+  { path: "/", component: homePage },
+  { path: "/TourPage", name: "User", component: TourPage },
 ];
+
 const router = createRouter({
-    history: createWebHistory(),
-    routes,  
+  history: createWebHashHistory(),
+  routes,
 });
 
-export default router; 
+export default router;

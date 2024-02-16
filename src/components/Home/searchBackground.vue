@@ -38,7 +38,7 @@ export default {
 
 form {
     position: relative;
-    left: 6%;
+    left: 8%;
     top: 147px;
     width: 80%;
     height: 86px;
@@ -58,6 +58,13 @@ input {
     border-radius: 40px;
     border: 1px;
     outline: none;
+    font-family: Inter;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 19px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #8590A4;
     transform: translateY(-2.45%);
 }
 
