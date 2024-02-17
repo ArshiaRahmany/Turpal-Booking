@@ -1,28 +1,50 @@
 <template>
-    <div class="container">
-        <form class="searchContainer">
-            <input type="text" placeholder="&#xF002; Where are you going?">
-            <button>Search</button>
-        </form>
+    <div>
+        <div class="container">
+            <form class="searchContainer">
+                <input class="icon-input" v-model="searchQuery" type="text" placeholder="&#xF002; Where are you going?">
+                <button @click="filterCards">Search</button>
+            </form>
+        </div>
+        <div>
+            <tour-title/>
+            <TourCards :cards="cards" />
+        </div>
     </div>
 </template>
 
 <script>
+import { useTourStore } from '../../store/citiesStore';
+import title from './tourTitle.vue';
+import TourCards from './tourCards.vue';
+
+
 export default {
     name: 'TurpalSaerchBackground',
 
     data() {
         return {
-
+            searchQuery: '',
+            filterCard: [],
+            cards: [],
         };
     },
-
-    mounted() {
-
+    async created() {
+        const store = useTourStore()
+        await store.fetchCities();
+        this.filteredCard = store.cities;
+        this.cards = this.filteredCard.slice(0, 4);
+        console.log(this.cards);
     },
-
+    components: {
+        'tour-title': title,
+        'TourCards': TourCards,
+    },
     methods: {
-
+        filterCards() {
+            const store = useTourStore();
+            this.cards = store.searchCards(this.searchQuery);
+        }
     },
 };
 </script>

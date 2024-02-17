@@ -1,25 +1,19 @@
 <template>
     <center>
-        <div class="container">
+        <div v-if="cardDetails" class="container">
             <div class="firstLine">
                 <div class="line"></div>
             </div>
             <div class="description">
                 <h1>Overview</h1>
                 <p>
-                    Prior booking is required to ensure availability. Experience is subject to availability. A two-way
-                    transfer is included in this package and can not be separated. Please contact our customer service for
-                    further details at 800-2080. Rates are not applicable on a public holiday, including blackout days such
-                    as but not limited to Easter, Valentine's Day, Iftar, EID, Christmas Day, Christmas Eve, New Year's Eve,
-                    Diwali and Chinese New Year. For online redemptions, our team will contact you to confirm your chosen
-                    date and time. You may also call our customer hotline 800 2080 for booking and availability.
-                    Approximately 3 to 4 hours total duration including pick up and drop off.
+                    {{ cardDetails.description }}
                 </p>
             </div>
         </div>
         <div class="lines">
             <div class="line" id="secondLine"></div>
-            <div class="line"></div>   
+            <div class="line"></div>
         </div>
         <div class="container">
             <div class="firstLine">
@@ -30,39 +24,53 @@
 </template>
 
 <script>
-export default {
-    name: 'TurpalOverview',
+import { useTourStore } from '../../store/citiesStore'
 
+export default {
+    name: 'TurpalBooking',
     data() {
         return {
-
+            cardDetails: {}
         };
     },
-
-    mounted() {
-
+    async created() {
+        const store = useTourStore();
+        console.log(this.$route.params.name);
+        this.cardDetails = await store.getCitiesbyId(this.$route.params.name);
+        console.log(this.cardDetails);
     },
-
     methods: {
-
-    },
+        async fetchCardDetails() {
+            try {
+                const store = useTourStore();
+                const cardName = this.$route.params.name;
+                this.cardDetails = await store.fetchCardDetails(cardName);
+            } catch (error) {
+                console.error(error);
+            }
+        }
+    }
 };
 </script>
 
 <style scoped>
-center{
+center {
     margin-top: 40px;
 }
+
 .container {
     width: 90%;
 }
-.firstLine{
+
+.firstLine {
     text-align: left;
     margin-bottom: 40px;
 }
-#secondLine{
+
+#secondLine {
     margin-block: 40px;
 }
+
 .line {
     width: 46%;
     border: 1px solid #EAECF7;
@@ -88,13 +96,14 @@ p {
     text-align: left;
     color: #283570;
 }
-.lines{
+
+.lines {
     text-align: left;
     margin-bottom: 5px;
 }
-.lastLine{
+
+.lastLine {
     margin-left: 5%;
     margin-bottom: 100px;
     text-align: left;
-}
-</style>
+}</style>

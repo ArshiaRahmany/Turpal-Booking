@@ -1,13 +1,13 @@
 <template>
-    <div class="container">
-        <div class="theCard" v-for="(card, index) in cards" :key="index" :index="index">
+    <div class="holder">
+        <div class="theCard" v-for="(card, index) in cards" :key="index">
             <router-link :to="'/TourPage/' + card.id">
                 <div class="cover">
                     <img :src="`${card.image}`" alt="">
                 </div>
                 <div class="txtHolder">
                     <div class="aboutTour">
-                        <p id="destination"> {{card.name}} </p>
+                        <p id="destination"> {{ card.name }} </p>
                         <p id="description"> {{ card.description }}</p>
                     </div>
                     <div id="amount">
@@ -23,21 +23,22 @@
 </template>
 
 <script>
-import { useTourStore } from '../../store/citiesStore'
 
 export default {
     name: 'TurpalTourCards',
 
     data() {
         return {
-            cards: [],
+
         };
     },
     async created() {
-        const store = useTourStore()
-        const allCards = await store.fetchCities();
-        this.cards = allCards.slice(0, 3);
-        console.log(this.cards);
+
+    },
+    watch: {
+    },
+    props: {
+        cards: Array
     },
 
     mounted() {
@@ -55,9 +56,9 @@ a {
     text-decoration: none;
 }
 
-.container {
+.holder {
     margin-bottom: 40px;
-    margin-inline: 15%;
+    margin-inline: 5%;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -66,7 +67,7 @@ a {
 
 .theCard {
     height: 458px;
-    width: 30%;
+    width: 22%;
     padding: 0px, 0px, 10px, 0px;
     border-radius: 10px;
     gap: 12px;

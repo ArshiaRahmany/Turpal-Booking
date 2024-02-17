@@ -1,28 +1,38 @@
 <template>
-    <div>
+    <div v-if="cardDetails">
         <h4>ADVENTURE</h4>
-        <h1>Safari, Quad Bike, Camel Ride, and Buffet Dinner</h1>
-        <h5>| Dubai, United Arab Emirates</h5>
+        <h1>{{ cardDetails.description }}</h1>
+        <h5>| {{ cardDetails.name }}, {{ cardDetails.price_range }}</h5>
     </div>
 </template>
 
 <script>
-export default {
-    name: 'TurpalTitle',
+import { useTourStore } from '../../store/citiesStore'
 
+export default {
+    name: 'TurpalBooking',
     data() {
         return {
-
+            cardDetails: {}
         };
     },
-
-    mounted() {
-
+    async created() {
+        const store = useTourStore();
+        console.log(this.$route.params.name);
+        this.cardDetails = await store.getCitiesbyId(this.$route.params.name);
+        console.log(this.cardDetails);
     },
-
     methods: {
-
-    },
+        async fetchCardDetails() {
+            try {
+                const store = useTourStore();
+                const cardName = this.$route.params.name;
+                this.cardDetails = await store.fetchCardDetails(cardName);
+            } catch (error) {
+                console.error(error);
+            }
+        }
+    }
 };
 </script>
 

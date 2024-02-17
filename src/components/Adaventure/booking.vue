@@ -1,12 +1,12 @@
 <template>
     <center>
-        <div class="container">
+        <div v-if="cardDetails" class="container" :style="{ backgroundImage: `url('${cardDetails.image}')` }">
             <div class="bookingContainer">
                 <div class="description">
 
                     <h3>From</h3>
                     <h2>
-                        400 AED
+                        {{ cardDetails.amount }} {{ cardDetails.currency }}
                         <span>
                             / Per Adult
                         </span>
@@ -19,36 +19,49 @@
                 </div>
             </div>
         </div>
+        <div v-else>
+            this tour is not avalible
+        </div>
     </center>
 </template>
 
 <script>
+import { useTourStore } from '../../store/citiesStore'
+
 export default {
     name: 'TurpalBooking',
-
     data() {
         return {
-
+            cardDetails: {}
         };
     },
-
-    mounted() {
-
+    async created() {
+        const store = useTourStore();
+        console.log(this.$route.params.name);
+        this.cardDetails = await store.getCitiesbyId(this.$route.params.name);
+console.log(this.cardDetails);
     },
-
     methods: {
-
-    },
+        async fetchCardDetails() {
+            try {
+                const store = useTourStore();
+                const cardName = this.$route.params.name;
+                this.cardDetails = await store.fetchCardDetails(cardName);
+            } catch (error) {
+                console.error(error);
+            }
+        }
+    }
 };
 </script>
 
 <style scoped>
 .container {
-    background: url();
+    padding-top: 10px;
     width: 90%;
     height: 489px;
     border-radius: 10px;
-    border: 1px solid red;
+    background-size: 100% 499px;
 }
 
 .bookingContainer {
@@ -62,7 +75,8 @@ export default {
     justify-content: space-between;
 }
 
-.bookingBtn , .description {
+.bookingBtn,
+.description {
     margin-block: auto;
     margin-inline: 20px;
 }
